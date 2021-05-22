@@ -20,6 +20,22 @@ type service struct {
 	s3Downloader *s3manager.Downloader
 }
 
+func FromEnv(bucket string, path string) (*service, error) {
+	sess, err := session.NewSession()
+	if err != nil {
+		return nil, err
+	}
+	if path == "" {
+		path = "/"
+	}
+	return &service{
+		s3Cli:        s3.New(sess),
+		s3Downloader: s3manager.NewDownloader(sess),
+		bucket:       bucket,
+		path:         path,
+	}, nil
+}
+
 func FromAwsProfile(bucket string, path string, awsProfile string, awsRegion string) (*service, error) {
 	sess, err := session.NewSession(&aws.Config{
 		Credentials: credentials.NewSharedCredentials("", awsProfile),

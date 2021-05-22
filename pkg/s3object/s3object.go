@@ -60,7 +60,7 @@ func (s *service) getPath(key string) string {
 }
 
 func (s *service) Has(key string) bool {
-	head, err := s.s3Cli.HeadObject(&s3.HeadObjectInput{
+	_, err := s.s3Cli.HeadObject(&s3.HeadObjectInput{
 		Bucket: aws.String(s.bucket),
 		Key:    aws.String(s.getPath(key))})
 	if err != nil {

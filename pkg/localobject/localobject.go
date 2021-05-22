@@ -21,6 +21,15 @@ func (s *service) getPath(key string) string {
 	return s.localpath + "/" + key + ".gz"
 }
 
+func (s *service) Has(key string) bool {
+	file, err := os.Open(s.getPath(key))
+	if err != nil {
+		return false
+	}
+	defer file.Close()
+	return true
+}
+
 func (s *service) Get(key string) ([]byte, error) {
 	file, err := os.Open(s.getPath(key))
 	if err != nil {

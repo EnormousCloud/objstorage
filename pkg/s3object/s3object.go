@@ -59,6 +59,16 @@ func (s *service) getPath(key string) string {
 	return s.path + key + ".gz"
 }
 
+func (s *service) Has(key string) bool {
+	head, err := s.s3Cli.HeadObject(&s3.HeadObjectInput{
+		Bucket: aws.String(s.bucket),
+		Key:    aws.String(s.getPath(key))})
+	if err != nil {
+		return false
+	}
+	return true
+}
+
 func (s *service) Get(key string) ([]byte, error) {
 	buff := &aws.WriteAtBuffer{}
 	_, err := s.s3Downloader.Download(buff, &s3.GetObjectInput{

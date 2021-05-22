@@ -1,4 +1,4 @@
-module objstorage
+module github.com/EnormousCloud/objstorage
 
 go 1.16
 
